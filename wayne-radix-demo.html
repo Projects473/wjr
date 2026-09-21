@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Radix | Taxi, Tours and Auto Rentals in Grenada</title>
+<meta name="description" content="Airport pickups, guided island tours and rental cars in Grenada from one local driver you can reach in a tap.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#0071e3; --accent-soft:#2997ff;
+  --ink:#1d1d1f; --muted:#6e6e73; --mist:#f5f5f7; --line:#e8e8ed;
+  --black:#000; --tile:#1c1c1e; --tile-2:#2c2c2e;
+  --on-dark:rgba(255,255,255,.72); --on-dark-strong:rgba(255,255,255,.86);
+  --pad:clamp(20px,8.3vw,120px);
+  --sans:'Geist',-apple-system,'Helvetica Neue',Helvetica,sans-serif;
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;line-height:1.5}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+:focus-visible{outline:2px solid var(--accent-soft);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1200px;margin:0 auto}
+.serif{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.02em}
+.placeholder{display:flex;align-items:flex-end;padding:20px;font-size:13px}
+
+/* Nav */
+.nav{position:sticky;top:0;z-index:20;height:64px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 var(--pad);background:rgba(0,0,0,.82);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(255,255,255,.08);color:#fff}
+.brand{display:flex;align-items:baseline;gap:10px}
+.brand b{font-size:20px;font-weight:700;letter-spacing:-.03em}
+.brand span{font-size:13px;color:var(--on-dark)}
+.nav-links{display:flex;gap:32px;font-size:14px}
+.nav-links a{color:var(--on-dark-strong)}
+.nav-links a:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:44px;padding:0 22px;border:0;border-radius:999px;background:var(--accent);color:#fff;font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn:hover{filter:brightness(1.08)}
+.btn-sm{height:36px;padding:0 18px;font-size:14px}
+.btn-glass{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18)}
+.menu-btn{display:none;width:44px;height:44px;border:0;background:transparent;color:#fff;align-items:center;justify-content:center;cursor:pointer}
+
+/* Hero */
+.hero{background:var(--black);color:#fff;padding:112px var(--pad) 120px;display:flex;flex-direction:column;align-items:center;gap:56px;text-align:center}
+.hero-copy{display:flex;flex-direction:column;align-items:center;gap:24px}
+.kicker{font-size:15px;font-weight:500;color:var(--on-dark)}
+.hero h1{margin:0;font-size:clamp(54px,7.2vw,104px);line-height:.98;font-weight:700;letter-spacing:-.045em}
+.hero p{margin:0;max-width:620px;font-size:clamp(17px,1.5vw,21px);line-height:1.45;color:var(--on-dark)}
+
+.booker{width:100%;max-width:1080px;padding:12px;border-radius:32px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);display:flex;flex-direction:column;gap:12px;text-align:left}
+.booker-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 4px 0}
+.booker-note{font-size:13px;color:var(--on-dark);padding-right:12px}
+.seg{display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(255,255,255,.08)}
+.seg button{height:40px;padding:0 22px;border:0;border-radius:999px;background:transparent;color:var(--on-dark-strong);font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,color .2s}
+.seg button[aria-selected="true"]{background:#fff;color:#000}
+.fields{display:flex;gap:8px}
+.fields[hidden]{display:none}
+.field{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:6px;padding:16px 20px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid transparent;transition:border-color .2s}
+.field:focus-within{border-color:rgba(255,255,255,.35)}
+.field.wide{flex-grow:1.3}
+.field.narrow{flex-grow:.7}
+.field label{font-size:12px;font-weight:600;letter-spacing:.01em;color:var(--on-dark)}
+.field input,.field select{all:unset;font-size:17px;color:#fff;width:100%}
+.field input::placeholder{color:rgba(255,255,255,.92)}
+.field select option{color:#000}
+.fields .btn{height:auto;min-height:56px;width:176px;flex-shrink:0;border-radius:20px;font-size:17px}
+
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.chip{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 16px;border-radius:999px;border:1px solid rgba(255,255,255,.16);font-size:14px;color:var(--on-dark-strong)}
+.hero-photo{width:100%;max-width:1200px;height:clamp(240px,31vw,440px);border-radius:36px;background:var(--tile);color:var(--on-dark);padding:32px}
+
+/* Sections */
+section.block{padding:clamp(72px,9.7vw,140px) var(--pad)}
+.mist{background:var(--mist)}
+.dark{background:var(--black);color:#fff}
+.h2{margin:0;font-size:clamp(38px,4.45vw,64px);line-height:1.02;font-weight:700;letter-spacing:-.04em}
+.lede{margin:14px 0 0;font-size:clamp(17px,1.5vw,21px);color:var(--muted)}
+.head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:clamp(32px,4vw,56px)}
+.link{font-size:17px;font-weight:500;color:var(--accent)}
+.dark .link,.link-soft{color:var(--accent-soft)}
+.link:hover{text-decoration:underline}
+
+/* Bento */
+.bento{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.tile{border-radius:32px;background:#fff;padding:44px;display:flex;justify-content:space-between;gap:32px}
+.tile-big{grid-row:span 2;background:#000;color:#fff;flex-direction:column;min-height:704px}
+.tile .eyebrow{font-size:15px;font-weight:600;color:var(--accent)}
+.tile-big .eyebrow{color:var(--accent-soft)}
+.tile h3{margin:12px 0;font-size:clamp(28px,2.5vw,36px);line-height:1.08;font-weight:700;letter-spacing:-.03em}
+.tile-big h3{font-size:clamp(32px,3vw,44px)}
+.tile p{margin:0;font-size:17px;line-height:1.5;color:var(--muted)}
+.tile-big p{color:var(--on-dark);max-width:420px;font-size:18px}
+.tile-text{display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+.tile-media{width:220px;flex-shrink:0;border-radius:22px;background:var(--line);color:#515154}
+.tile-big .tile-media{width:100%;height:300px;border-radius:24px;background:var(--tile);color:var(--on-dark)}
+.tile-car{display:flex;align-items:center;justify-content:center;color:var(--ink)}
+
+/* Fleet */
+.seg-light{background:var(--mist)}
+.seg-light button{color:var(--ink);height:38px;padding:0 20px}
+.seg-light button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.fleet{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.car{border-radius:28px;background:var(--mist);padding:28px;display:flex;flex-direction:column;gap:20px}
+.car[hidden]{display:none}
+.car-art{height:150px;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.car h3{margin:0;font-size:22px;font-weight:700;letter-spacing:-.02em}
+.car p{margin:6px 0 0;font-size:15px;color:var(--muted)}
+.car-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:15px;margin-top:auto}
+
+/* Tours */
+.tours-title{margin:0 0 clamp(32px,4vw,56px)}
+.tours-title .h2{font-size:clamp(44px,5.6vw,80px);line-height:1}
+.tours-title .kicker{display:block;margin-bottom:14px;font-size:17px;font-weight:600;color:var(--accent-soft)}
+.tours{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.tour{border-radius:28px;background:var(--tile);overflow:hidden;display:flex;flex-direction:column}
+.tour .placeholder{height:300px;background:var(--tile-2);color:var(--on-dark)}
+.tour-body{padding:32px;display:flex;flex-direction:column;gap:14px;flex:1}
+.tour h3{margin:0;font-size:28px;font-weight:700;letter-spacing:-.025em}
+.tour p{margin:0;font-size:16px;color:var(--on-dark)}
+.tour-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid rgba(255,255,255,.12);font-size:15px;color:var(--on-dark-strong)}
+.tour-foot a{font-weight:600;color:var(--accent-soft)}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;margin-top:64px}
+.step .num{font-family:var(--serif);font-style:italic;font-size:72px;line-height:1;color:var(--accent)}
+.step h3{margin:14px 0 8px;font-size:26px;font-weight:700;letter-spacing:-.02em}
+.step p{margin:0;font-size:17px;line-height:1.55;color:var(--muted)}
+
+/* Reviews */
+.reviews{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:48px}
+.review{margin:0;border-radius:28px;background:#fff;padding:36px;display:flex;flex-direction:column;gap:28px}
+.review blockquote{margin:0;font-size:22px;line-height:1.4;letter-spacing:-.01em}
+.review figcaption{font-size:15px;color:var(--muted)}
+
+/* CTA + footer */
+.cta{text-align:center;display:flex;flex-direction:column;align-items:center;gap:28px;padding:clamp(96px,11vw,160px) var(--pad)}
+.cta h2{margin:0;font-size:clamp(56px,6.7vw,96px);line-height:.98;font-weight:700;letter-spacing:-.045em}
+.cta p{margin:0;max-width:560px;font-size:clamp(17px,1.5vw,21px);color:var(--on-dark)}
+.cta .btn{height:56px;padding:0 30px;font-size:17px}
+.cta-row{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;padding-top:8px}
+footer{background:#000;border-top:1px solid rgba(255,255,255,.1);padding:48px var(--pad);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:13px;color:var(--on-dark)}
+footer nav{display:flex;flex-wrap:wrap;gap:28px}
+footer a:hover{color:#fff}
+
+/* Mobile action bar */
+.mbar{display:none}
+
+/* Responsive */
+@media (max-width:1100px){
+  .fleet{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fields{flex-wrap:wrap}
+  .field{flex-basis:calc(50% - 4px)}
+  .fields .btn{width:100%}
+}
+@media (max-width:900px){
+  .bento,.tours,.steps,.reviews{grid-template-columns:1fr}
+  .tile-big{grid-row:auto;min-height:0}
+  .tile{padding:32px}
+  .steps{gap:36px}
+}
+@media (max-width:720px){
+  .nav{height:56px}
+  .brand span,.nav .btn{display:none}
+  .menu-btn{display:flex}
+  .nav-links{display:none;position:absolute;top:56px;left:0;right:0;flex-direction:column;gap:0;padding:8px var(--pad) 20px;background:rgba(0,0,0,.95)}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:14px 0;font-size:17px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .hero{padding-top:48px;padding-bottom:56px;gap:32px;text-align:left;align-items:stretch}
+  .hero-copy{align-items:flex-start}
+  .booker{padding:10px;border-radius:28px}
+  .booker-note{display:none}
+  .seg{width:100%}
+  .seg button{flex:1;padding:0}
+  .field{flex-basis:100%;padding:14px 18px;border-radius:18px}
+  .chips{justify-content:flex-start}
+  .tile{flex-direction:column}
+  .tile-media{width:100%;height:180px}
+  .fleet{grid-template-columns:1fr}
+  .seg-light{width:100%;overflow-x:auto}
+  .seg-light button{flex:1 0 auto;padding:0 16px}
+  .tour .placeholder{height:220px}
+  .tour-body{padding:24px}
+  footer{padding-bottom:120px}
+  .mbar{display:flex;position:fixed;z-index:30;left:12px;right:12px;bottom:calc(16px + env(safe-area-inset-bottom,0px));gap:8px;padding:8px;border-radius:999px;background:rgba(28,28,30,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12)}
+  .mbar .btn{flex:1;height:48px}
+  .mbar .wa{width:48px;height:48px;padding:0;flex:0 0 48px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="#top" aria-label="Radix home"><b>Radix</b><span>Taxi, tours and rentals</span></a>
+  <nav class="nav-links" id="navlinks" aria-label="Main">
+    <a href="#services">Transfers</a>
+    <a href="#tours">Tours</a>
+    <a href="#fleet">Rentals</a>
+    <a href="#how">How it works</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a class="btn btn-sm" href="#book">Book now</a>
+  <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks" id="menuBtn">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
+  </button>
+</header>
+
+<main id="top">
+  <!-- Hero -->
+  <section class="hero" id="book">
+    <div class="hero-copy">
+      <span class="kicker">Taxi, tours and auto rentals in Grenada</span>
+      <h1>The island,<br><span class="serif">on your time.</span></h1>
+      <p>Airport pickups, guided island tours and rental cars from one local driver you can reach in a tap.</p>
+    </div>
+
+    <form class="booker" id="booker" novalidate>
+      <div class="booker-top">
+        <div class="seg" role="tablist" aria-label="Choose a service">
+          <button type="button" role="tab" aria-selected="true" aria-controls="p-taxi" data-tab="taxi">Taxi</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="p-tours" data-tab="tours">Tours</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="p-rentals" data-tab="rentals">Rentals</button>
+        </div>
+        <span class="booker-note">Confirmed by WhatsApp and email</span>
+      </div>
+
+      <div class="fields" id="p-taxi" role="tabpanel">
+        <div class="field wide"><label for="tx1">Pickup</label><input id="tx1" type="text" placeholder="Maurice Bishop Int'l Airport"></div>
+        <div class="field wide"><label for="tx2">Drop-off</label><input id="tx2" type="text" placeholder="Hotel, villa or address"></div>
+        <div class="field"><label for="tx3">Date and time</label><input id="tx3" type="text" placeholder="Add flight time"></div>
+        <div class="field narrow"><label for="tx4">Guests</label><input id="tx4" type="text" placeholder="2 adults"></div>
+        <button class="btn" type="submit">Get a quote</button>
+      </div>
+
+      <div class="fields" id="p-tours" role="tabpanel" hidden>
+        <div class="field wide"><label for="to1">Tour</label>
+          <select id="to1"><option>Waterfalls and Rainforest</option><option>North Coast Heritage</option><option>Capital and Coast</option></select></div>
+        <div class="field"><label for="to2">Date</label><input id="to2" type="text" placeholder="Choose a day"></div>
+        <div class="field wide"><label for="to3">Pickup from</label><input id="to3" type="text" placeholder="Hotel or cruise port"></div>
+        <div class="field narrow"><label for="to4">Guests</label><input id="to4" type="text" placeholder="4 guests"></div>
+        <button class="btn" type="submit">Reserve tour</button>
+      </div>
+
+      <div class="fields" id="p-rentals" role="tabpanel" hidden>
+        <div class="field"><label for="re1">Pick-up date</label><input id="re1" type="text" placeholder="Add date"></div>
+        <div class="field"><label for="re2">Return date</label><input id="re2" type="text" placeholder="Add date"></div>
+        <div class="field"><label for="re3">Vehicle</label>
+          <select id="re3"><option>Any size</option><option>Compact sedan</option><option>Mid-size SUV</option><option>4x4 Jeep</option><option>Minivan</option></select></div>
+        <div class="field wide"><label for="re4">Deliver to</label><input id="re4" type="text" placeholder="Airport, hotel or villa"></div>
+        <button class="btn" type="submit">Check cars</button>
+      </div>
+    </form>
+
+    <div class="chips">
+      <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Licensed and insured</span>
+      <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Airport and cruise port pickups</span>
+      <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Prices in EC$ and US$</span>
+    </div>
+
+    <div class="hero-photo placeholder">[Hero photo: Wayne's vehicle on the coast road above Grand Anse Beach]</div>
+  </section>
+
+  <!-- Services -->
+  <section class="block mist" id="services">
+    <div class="wrap">
+      <div class="head-row">
+        <h2 class="h2">Three ways to ride.<br><span style="color:var(--muted)">One number to call.</span></h2>
+        <a class="link" href="#book">Book any service ›</a>
+      </div>
+      <div class="bento">
+        <article class="tile tile-big">
+          <div>
+            <span class="eyebrow">Airport and cruise transfers</span>
+            <h3>Met at arrivals.<br>Every flight.</h3>
+            <p>Send your flight number and Wayne tracks it. Fixed rates by zone, from the airport to Grand Anse, St. George's, Grenville and beyond.</p>
+          </div>
+          <div class="tile-media placeholder">[Photo: meet and greet at Maurice Bishop International Airport]</div>
+          <a class="link link-soft" href="#book">See transfer rates ›</a>
+        </article>
+        <article class="tile">
+          <div class="tile-text">
+            <div><span class="eyebrow">Island tours</span><h3>Waterfalls, rum<br>and hidden bays.</h3><p>Private, guided days around the Spice Isle.</p></div>
+            <a class="link" href="#tours">Explore tours ›</a>
+          </div>
+          <div class="tile-media placeholder">[Photo: Annandale Falls]</div>
+        </article>
+        <article class="tile">
+          <div class="tile-text">
+            <div><span class="eyebrow">Auto rentals</span><h3>Your own keys,<br>delivered.</h3><p>Cars and 4x4s dropped at your door.</p></div>
+            <a class="link" href="#fleet">View the fleet ›</a>
+          </div>
+          <div class="tile-media tile-car" aria-hidden="true">
+            <svg width="170" height="70" viewBox="0 0 240 90" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 64V56c0-5 3-8 8-9l26-5 24-14c5-3 10-4 16-4h44c7 0 13 3 18 8l16 14 34 5c6 1 10 5 10 11v4"/><path d="M44 66h36M104 66h72M200 66h14"/><circle cx="62" cy="66" r="14"/><circle cx="190" cy="66" r="14"/><path d="M84 42h92M128 28v14"/></svg>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fleet -->
+  <section class="block" id="fleet">
+    <div class="wrap">
+      <div class="head-row">
+        <div><h2 class="h2">Pick your ride.</h2><p class="lede">Clean, serviced and ready when you land.</p></div>
+        <div class="seg seg-light" role="group" aria-label="Filter vehicles">
+          <button type="button" aria-pressed="true" data-filter="all">All</button>
+          <button type="button" aria-pressed="false" data-filter="car">Cars</button>
+          <button type="button" aria-pressed="false" data-filter="suv">SUVs and 4x4</button>
+          <button type="button" aria-pressed="false" data-filter="van">Vans</button>
+        </div>
+      </div>
+      <div class="fleet">
+        <article class="car" data-kind="car">
+          <div class="car-art" aria-hidden="true"><svg width="220" height="84" viewBox="0 0 240 90" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 64V56c0-5 3-8 8-9l26-5 24-14c5-3 10-4 16-4h44c7 0 13 3 18 8l16 14 34 5c6 1 10 5 10 11v4"/><path d="M44 66h36M104 66h72M200 66h14"/><circle cx="62" cy="66" r="14"/><circle cx="190" cy="66" r="14"/><path d="M84 42h92M128 28v14"/></svg></div>
+          <div><h3>Compact sedan</h3><p>Automatic, 5 seats, 2 bags</p></div>
+          <div class="car-foot"><span>From <strong>EC$ [rate]</strong>/day</span><a class="btn btn-sm" href="#book">Reserve</a></div>
+        </article>
+        <article class="car" data-kind="suv">
+          <div class="car-art" aria-hidden="true"><svg width="220" height="84" viewBox="0 0 240 90" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 64V40c0-6 4-10 10-10h14l16-14c3-3 7-4 11-4h92c6 0 11 3 14 8l12 20h28c7 0 12 5 12 12v12"/><path d="M44 66h36M104 66h72M200 66h14"/><circle cx="62" cy="66" r="14"/><circle cx="190" cy="66" r="14"/><path d="M56 30h120M122 12v18M176 30l-12-18"/></svg></div>
+          <div><h3>Mid-size SUV</h3><p>Automatic, 5 seats, 3 bags</p></div>
+          <div class="car-foot"><span>From <strong>EC$ [rate]</strong>/day</span><a class="btn btn-sm" href="#book">Reserve</a></div>
+        </article>
+        <article class="car" data-kind="suv">
+          <div class="car-art" aria-hidden="true"><svg width="220" height="84" viewBox="0 0 240 90" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 64V40c0-6 4-10 10-10h14l16-14c3-3 7-4 11-4h92c6 0 11 3 14 8l12 20h28c7 0 12 5 12 12v12"/><path d="M44 66h36M104 66h72M200 66h14"/><circle cx="62" cy="66" r="14"/><circle cx="190" cy="66" r="14"/><path d="M56 30h120M122 12v18M176 30l-12-18"/></svg></div>
+          <div><h3>4x4 Jeep</h3><p>Manual, 4 seats, 2 bags</p></div>
+          <div class="car-foot"><span>From <strong>EC$ [rate]</strong>/day</span><a class="btn btn-sm" href="#book">Reserve</a></div>
+        </article>
+        <article class="car" data-kind="van">
+          <div class="car-art" aria-hidden="true"><svg width="220" height="84" viewBox="0 0 240 90" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 64V22c0-7 5-12 12-12h134c8 0 14 3 19 9l22 24 18 4c6 1 9 5 9 11v6"/><path d="M44 66h36M104 66h72M200 66h14"/><circle cx="62" cy="66" r="14"/><circle cx="190" cy="66" r="14"/><path d="M14 38h170M70 10v28M128 10v28"/></svg></div>
+          <div><h3>Minivan</h3><p>Automatic, 7 seats, 4 bags</p></div>
+          <div class="car-foot"><span>From <strong>EC$ [rate]</strong>/day</span><a class="btn btn-sm" href="#book">Reserve</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tours -->
+  <section class="block dark" id="tours">
+    <div class="wrap">
+      <div class="tours-title">
+        <span class="kicker">Private island tours</span>
+        <h2 class="h2">See the <span class="serif">Spice Isle.</span></h2>
+      </div>
+      <div class="tours">
+        <article class="tour">
+          <div class="placeholder">[Photo: Grand Etang Lake]</div>
+          <div class="tour-body"><h3>Waterfalls and Rainforest</h3><p>Grand Etang Lake, Annandale Falls and Concord Falls.</p>
+            <div class="tour-foot"><span>[x] hrs, EC$ [rate] per person</span><a href="#book">Reserve ›</a></div></div>
+        </article>
+        <article class="tour">
+          <div class="placeholder">[Photo: Belmont Estate]</div>
+          <div class="tour-body"><h3>North Coast Heritage</h3><p>Belmont Estate, River Antoine Rum Distillery and Sauteurs.</p>
+            <div class="tour-foot"><span>[x] hrs, EC$ [rate] per person</span><a href="#book">Reserve ›</a></div></div>
+        </article>
+        <article class="tour">
+          <div class="placeholder">[Photo: St. George's harbour]</div>
+          <div class="tour-body"><h3>Capital and Coast</h3><p>Fort George, the Spice Market and Grand Anse Beach.</p>
+            <div class="tour-foot"><span>[x] hrs, EC$ [rate] per person</span><a href="#book">Reserve ›</a></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="block" id="how">
+    <div class="wrap">
+      <h2 class="h2" style="text-align:center">Booked in three taps.</h2>
+      <ol class="steps" style="list-style:none;padding:0;margin-bottom:0">
+        <li class="step"><span class="num">01</span><h3>Choose</h3><p>Pick a transfer, a tour or a car. See the rate before you commit.</p></li>
+        <li class="step"><span class="num">02</span><h3>Confirm</h3><p>Wayne confirms on WhatsApp within the hour. Pay a deposit or pay on the day.</p></li>
+        <li class="step"><span class="num">03</span><h3>Ride</h3><p>Your driver or your keys are waiting. That is it.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="block mist">
+    <div class="wrap">
+      <h2 class="h2">Guests say it best.</h2>
+      <div class="reviews">
+        <figure class="review"><blockquote>"[Guest review from Google or TripAdvisor]"</blockquote><figcaption>[Guest name], [Country]</figcaption></figure>
+        <figure class="review"><blockquote>"[Guest review from Google or TripAdvisor]"</blockquote><figcaption>[Guest name], [Country]</figcaption></figure>
+        <figure class="review"><blockquote>"[Guest review from Google or TripAdvisor]"</blockquote><figcaption>[Guest name], [Country]</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta dark" id="contact">
+    <h2>Landing soon?</h2>
+    <p>Send your flight number and Wayne will be waiting at arrivals.</p>
+    <div class="cta-row">
+      <a class="btn" href="#book">Book online</a>
+      <a class="btn btn-glass" href="https://wa.me/1473XXXXXXX">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5A8.5 8.5 0 1 1 8 19.3L3 21z"/></svg>
+        WhatsApp +1 (473) [number]</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>© 2026 Wayne Radix Taxi, Tours and Auto Rentals, Grenada</span>
+  <nav aria-label="Footer">
+    <a href="#services">Transfers</a><a href="#tours">Tours</a><a href="#fleet">Rentals</a><a href="#contact">FAQs and policies</a>
+  </nav>
+  <span>Site by <a href="https://ghosten22.github.io/savvy-tech/">Savvy Tech</a></span>
+</footer>
+
+<div class="mbar">
+  <a class="btn" href="#book">Book now</a>
+  <a class="btn btn-glass wa" href="https://wa.me/1473XXXXXXX" aria-label="Chat on WhatsApp">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5A8.5 8.5 0 1 1 8 19.3L3 21z"/></svg>
+  </a>
+</div>
+
+<script>
+// Booking tabs
+const tabs = document.querySelectorAll('[data-tab]');
+tabs.forEach(t => t.addEventListener('click', () => {
+  tabs.forEach(o => {
+    const on = o === t;
+    o.setAttribute('aria-selected', on);
+    document.getElementById(o.getAttribute('aria-controls')).hidden = !on;
+  });
+}));
+
+// Demo submit: open WhatsApp with the details filled in
+document.getElementById('booker').addEventListener('submit', e => {
+  e.preventDefault();
+  const panel = [...document.querySelectorAll('.fields')].find(p => !p.hidden);
+  const service = document.querySelector('[data-tab][aria-selected="true"]').textContent;
+  const lines = [...panel.querySelectorAll('.field')].map(f => {
+    const input = f.querySelector('input,select');
+    return f.querySelector('label').textContent + ': ' + (input.value || '-');
+  });
+  const msg = 'Hi Wayne, I would like to book: ' + service + '\n' + lines.join('\n');
+  window.open('https://wa.me/1473XXXXXXX?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+});
+
+// Fleet filter
+const filters = document.querySelectorAll('[data-filter]');
+filters.forEach(b => b.addEventListener('click', () => {
+  const f = b.dataset.filter;
+  filters.forEach(o => o.setAttribute('aria-pressed', o === b));
+  document.querySelectorAll('.car').forEach(c => { c.hidden = !(f === 'all' || c.dataset.kind === f); });
+}));
+
+// Mobile menu
+const menuBtn = document.getElementById('menuBtn');
+const links = document.getElementById('navlinks');
+menuBtn.addEventListener('click', () => {
+  const open = links.classList.toggle('open');
+  menuBtn.setAttribute('aria-expanded', open);
+  menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+});
+links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  links.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false');
+}));
+</script>
+</body>
+</html>
